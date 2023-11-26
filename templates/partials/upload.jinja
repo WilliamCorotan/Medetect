@@ -1,0 +1,140 @@
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='assets/js/upload.js') }}"
+></script>
+
+<section
+  id="home"
+  class="grid h-[calc(100vh-64px)] scroll-mt-[64px] place-items-center"
+  style="
+    background: url(&quot;static/assets/images/bg/upload-section-bg.webp&quot;)
+      center center no-repeat;
+  "
+>
+  <div
+    id="upload-container"
+    class="mx-auto flex min-h-max w-4/5 flex-col rounded-2xl border-4 border-transparent bg-zinc-50 pb-4 opacity-90 md:h-4/5 lg:max-w-6xl xl:w-full"
+  >
+    <div id="upload-container-headers" class="mx-auto w-4/5 px-8 pt-8">
+      <ul class="flex justify-between border-b-2 border-zinc-200 px-8">
+        <li class="tab-button pb-2 text-center" onclick="changeTab(event)">
+          <a href="#upload-form-one">
+            <h5 class="text-primary text-xl font-semibold">Upload Image</h5>
+            <span class="text-xs">Provide Clear OTC Medicine Image</span>
+          </a>
+        </li>
+        <li class="tab-button pb-2 text-center" onclick="changeTab(event)">
+          <a href="#upload-form-two">
+            <h5 class="text-primary text-xl font-semibold">Select Mode</h5>
+            <span class="text-xs">On or Off Augmentation</span>
+          </a>
+        </li>
+        <li class="tab-button pb-2 text-center" onclick="changeTab(event)">
+          <a href="#upload-form-three">
+            <h5 class="text-primary text-xl font-semibold">Check Output</h5>
+            <span class="text-xs">Hooray! Your Result is Here</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <form
+      id="upload-form"
+      action=""
+      class="h-[inherit] w-full text-sm text-gray-600"
+    >
+      <div
+        id="upload-form-one"
+        class="tab-panel relative grid h-[340px] w-full place-items-center py-8 lg:h-[560px]"
+      >
+        <img
+          class="hidden h-[340px] max-h-96 w-fit min-w-[576px] max-w-xl rounded-xl border-2 border-dashed border-zinc-400 object-cover px-3 py-4"
+          id="image-preview"
+          src=""
+          alt="image-preview"
+        />
+        <label
+          id="image-label"
+          for="image"
+          class="py-21 text-secondary focus-within:ring-secondary group relative grid h-3/5 w-4/5 max-w-xl cursor-pointer place-items-center rounded-xl border-2 border-dashed border-zinc-400 bg-white px-16 font-medium text-gray-700 transition-all focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2"
+        >
+          <div>
+            <svg
+              class="fill-secondary group-hover:fill-primary"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10.5 3.75a6 6 0 00-5.98 6.496A5.25 5.25 0 006.75 20.25H18a4.5 4.5 0 002.206-8.423 3.75 3.75 0 00-4.133-4.303A6.001 6.001 0 0010.5 3.75zm2.03 5.47a.75.75 0 00-1.06 0l-3 3a.75.75 0 101.06 1.06l1.72-1.72v4.94a.75.75 0 001.5 0v-4.94l1.72 1.72a.75.75 0 101.06-1.06l-3-3z"
+                clip-rule="evenodd"
+              />
+            </svg>
+
+            <span class="group-hover:text-primary">Upload a file</span>
+            <input
+              required
+              id="image"
+              name="image"
+              type="file"
+              class="sr-only"
+            />
+          </div>
+        </label>
+        <button
+          id="upload-next"
+          type="button"
+          data-next_tab="#upload-form-two"
+          class="bg-primary text-md absolute bottom-0 hidden rounded-full bg-gray-800 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+        >
+          Upload
+        </button>
+      </div>
+      <div id="upload-form-two" class="tab-panel relative hidden">
+        <div
+          class="mx-auto grid h-[340px] w-4/5 place-items-center py-8 text-justify lg:h-[560px]"
+        >
+          <div clas="text-container">
+            <h6 class="text-secondary font-bold">Turn On Augmentation:</h6>
+            <p>
+              Activating data augmentation enhances and diversifies your image,
+              increasing data variety for comprehensive exploration. Turn Off
+              Augmentation: Deactivating data augmentation leaves your content
+              unaltered, analyzing raw data for a direct evaluation.
+            </p>
+            <h6 class="text-secondary font-bold">Turn Off Augmentation:</h6>
+            <p>
+              Deactivating data augmentation leaves your content unaltered,
+              analyzing raw data for a direct evaluation
+            </p>
+          </div>
+
+          <label
+            class="border-primary relative mb-5 inline-flex cursor-pointer items-center rounded-md border bg-zinc-50 px-4 py-3 drop-shadow-md"
+          >
+            <span
+              class="mx-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >Data Augmentation</span
+            >
+            <input
+              class="checked:bg-primary checked:after:bg-primary checked:focus:border-primary checked:focus:bg-primary dark:checked:bg-primary dark:checked:after:bg-primary mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:bg-neutral-600 dark:after:bg-neutral-400 dark:focus:before:shadow-[3px_-1px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca]"
+              type="checkbox"
+              role="switch"
+              id="data-aug-switch"
+            />
+          </label>
+
+          <button
+            id="upload-next"
+            type="button"
+            data-next_tab="#upload-form-two"
+            class="bg-primary text-md absolute bottom-0 hidden rounded-full bg-gray-800 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+          >
+            Get Results
+          </button>
+        </div>
+      </div>
+      <div id="upload-form-two" class="tab-panel hidden"></div>
+    </form>
+  </div>
+</section>
