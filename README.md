@@ -27,3 +27,6 @@ Make folder in static/assets/
 ```bash
 flask --app app.py --debug run
 ```
+
+## NOTE:
+> If flask server doesn't run properly, I recommend running the program in an anaconda environment. Install anaconda thru their [docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
