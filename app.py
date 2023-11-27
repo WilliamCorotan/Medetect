@@ -3,10 +3,16 @@ import os
 from model import process_image
 import json 
 
+#app configs
 app = Flask(__name__)   
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = 'static/files'
 
+#model paths
+MODEL_AUG_PATH = 'medetect_withaugment.pt'
+MODEL_NO_AUG_PATH = 'medetect_withoutaugment.pt'
+
+#index route
 @app.route("/")
 @app.route("/home")
 def index():
@@ -33,9 +39,9 @@ def upload():
         if file:
             #set mode for model
             if augmented:
-                mode = 'medetect_withaugment.pt'
+                mode = MODEL_AUG_PATH
             else:
-                mode = 'medetect_withoutaugment.pt'
+                mode = MODEL_NO_AUG_PATH
 
             result = process_image(mode, file, app.config['UPLOAD_FOLDER'])
 
