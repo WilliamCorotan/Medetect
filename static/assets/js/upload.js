@@ -2,19 +2,21 @@ document.addEventListener("DOMContentLoaded", function (event) {
   console.log("me here ready >>>");
 
   const fileUpload = document.querySelector("#upload-form #image");
+  const imagePreviewContainer = document.querySelector("#image-preview-container");
   const imagePreview = document.querySelector("#image-preview");
-  const imageLabel = document.querySelector("#image-label");
+  const imageInputContainer = document.querySelector("#image-input-container");
   const submit = document.querySelector("#upload-next");
-  const partone = document.querySelector("#upload-form-one");
-  const parttwo = document.querySelector("#upload-form-two");
-
+  const form = document.querySelector("#upload-form");
+  const uploadAgainBtn = document.querySelector("#upload-again-btn");
+  const spinner = document.querySelector("#spinner"); 
+  const uploadText = document.querySelector("#upload-text");
   fileUpload.addEventListener("change", function (event) {
     const file = event.target.files?.[0];
     if (file) {
       imagePreview.src = URL.createObjectURL(file);
-      imagePreview.classList.remove("hidden");
+      imagePreviewContainer.classList.remove("hidden");
       imagePreview.classList.add("cursor-pointer");
-      imageLabel.classList.add("hidden");
+      imageInputContainer.classList.add("hidden");
       submit.classList.remove("hidden");
     }
   });
@@ -23,33 +25,56 @@ document.addEventListener("DOMContentLoaded", function (event) {
     fileUpload.click();
   });
 
-  submit.addEventListener("click", function (event) {
+  async function uploadImage(action = '', form) {
+    spinner.classList.remove("hidden");
+    uploadText.innerHTML = 'Uploading...';
+    submit.setAttribute('disabled', 'disabled');
+    console.log('upload image function call >>', form)
+    const response = await fetch(action, {
+      method: 'POST',
+      body: new FormData(form),
+    }).then(response => response.json()).then((response)=>{
+      
+      console.log(response)
+      if(response.success)
+      {
+        document.querySelector("#result-preview").src = response.file_path
+        document.querySelector("#upload-form-one").classList.add('hidden');
+        document.querySelector("[data-form-view='upload-form-one']").classList.remove('active');
+        document.querySelector("#result-form-one").classList.remove('hidden');
+        document.querySelector("[data-form-view='result-form-one']").classList.add('active');
+        spinner.classList.add("hidden");
+        uploadText.innerHTML = 'Upload';
+        submit.removeAttribute('disabled');
+      }
+    });
+    return response;
+  }
+
+  form.addEventListener('submit', function (event) {
     event.preventDefault();
-    console.log("me here submit >>>");
-    partone.classList.add("hidden");
-    parttwo.classList.remove("hidden");
+    console.log('me submitted >>');
+    action = this.getAttribute('action');
+    uploadImage(action, form);
+    
   });
 
-  function changeTab(event) {
-    const tabButtons = document.querySelectorAll(".tab-button");
-    const tabPanels = document.querySelectorAll(".tab-panel");
+  // submit.addEventListener("click", function (event) {
+  //   event.preventDefault();
+  //   action = form.getAttribute('action');
+  //   uploadImage(action, form);
+  // });
 
-    // border-b-secondary border-b-4
+  uploadAgainBtn.addEventListener('click', function () {
+    
+    document.querySelector("#upload-form-one").classList.remove('hidden');
+    document.querySelector("[data-form-view='upload-form-one']").classList.add('active');
+    document.querySelector("#result-form-one").classList.add('hidden');
+    document.querySelector("[data-form-view='result-form-one']").classList.remove('active');
 
-    // Remove the active utility classes from all tabs (bg-white, text-blue-600)
-    // And hide all tab content (with the "hidden" utility)
-    for (const i = 0; i < tabButtons.length; i++) {
-      tabButtons[i].classList.remove("text-blue-600");
-      tabButtons[i].classList.remove("bg-white");
-      tabButtons[i].classList.add("text-white");
-      tabPanels[i].classList.add("hidden");
-    }
-
-    // Add the active utility classes to the currently active tab (bg-white, text-blue-600)
-    // And show the current tab content (remove the "hidden" utility)
-    tabButtons[index].classList.remove("text-white");
-    tabButtons[index].classList.add("text-blue-600");
-    tabButtons[index].classList.add("bg-white");
-    tabPanels[index].classList.remove("hidden");
-  }
+    imagePreviewContainer.classList.add("hidden");
+    imagePreview.classList.remove("cursor-pointer");
+    imageInputContainer.classList.remove("hidden");
+    submit.classList.add("hidden");
+  })
 });
